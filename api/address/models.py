@@ -1,5 +1,4 @@
 from django.db import models
-from patient.models import Patient
 from .utils import validate_zip_code
 
 
@@ -10,4 +9,3 @@ class Address(models.Model):
     zip_code = models.IntegerField(validators=[validate_zip_code])
     city = models.CharField(max_length=250)
     state = models.CharField(max_length=250)
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name="address")
