@@ -9,7 +9,7 @@ def validate_cpf(value):
     )
 
 def validate_phone(value):
-    if len(str(value)) < 8 or len(str(value) > 15):
+    if len(str(value)) < 8 or len(str(value)) >  15:
         raise ValidationError(
         _('%(value)s should have between 8 and 15 digits'),
         params={'value': value},
