@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     "corsheaders",
     "account.apps.AccountConfig",
-    "patient.apps.PatientConfig"
+    "patient.apps.PatientConfig",
+    "address.apps.AddressConfig"
 ]
 
 MIDDLEWARE = [
