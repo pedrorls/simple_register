@@ -15,3 +15,16 @@ class PatientSerializer(serializers.ModelSerializer):
         Patient.objects.create(**validated_data)
 
         return validated_data
+
+
+    def update(self, instance, validated_data):
+        Address.objects.filter(pk=instance.address.pk).update(
+            **validated_data["address"]
+        )
+        instance.name = validated_data["name"]
+        instance.email = validated_data["email"]
+        instance.cpf = validated_data["cpf"]
+        instance.birth_date = validated_data["birth_date"]
+        instance.phone = validated_data["phone"]
+        instance.save()
+        return validated_data
