@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Login } from "./pages/Login";
+import { Patient } from "./pages/Patient";
 import "./app.css";
 
 export const App = () => {
@@ -9,7 +10,5 @@ export const App = () => {
     localStorage.getItem("token") ? setIsLogged(true) : setIsLogged(false);
   }, []);
 
-  return (
-    <>{isLogged ? <h1>show list</h1> : <Login setIsLogged={setIsLogged} />}</>
-  );
+  return <>{isLogged ? <Patient /> : <Login setIsLogged={setIsLogged} />}</>;
 };
