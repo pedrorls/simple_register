@@ -25,4 +25,4 @@ class PatientSerializer(serializers.ModelSerializer):
         instance.birth_date = validated_data["birth_date"]
         instance.phone = validated_data["phone"]
         instance.save()
-        return instance
+        return validated_data

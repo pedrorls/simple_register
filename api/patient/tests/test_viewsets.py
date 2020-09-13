@@ -70,6 +70,7 @@ def test_update_patient(client, django_user_model):
         **{'HTTP_AUTHORIZATION': f'JWT {token}'}
         )
     assert response.status_code == status.HTTP_200_OK
+    assert response.data["address"]["street"] != existed_patient.address.street 
 
 @pytest.mark.django_db
 def test_delete_patient(client, django_user_model):
