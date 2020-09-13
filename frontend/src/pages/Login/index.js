@@ -11,6 +11,7 @@ export const Login = ({ setIsLogged }) => {
   const [errors, setErrors] = useState([]);
 
   const handleOnchange = (event) => {
+    setErrors([]);
     event.preventDefault();
     setCredentials({
       ...credentials,
@@ -27,7 +28,11 @@ export const Login = ({ setIsLogged }) => {
         setIsLogged(true);
       })
       .catch((error) => {
-        setErrors(error.response.data.non_field_errors);
+        setCredentials({
+          ...credentials,
+          password: "",
+        });
+        setErrors(Object.entries(error.response.data));
       });
   };
 
@@ -36,7 +41,7 @@ export const Login = ({ setIsLogged }) => {
       <h2>Login</h2>
       <ul>
         {errors.map((error, index) => (
-          <li key={index}> {error}</li>
+          <li key={index}>{`${error[0]}: ${error[1]}`}</li>
         ))}
       </ul>
       <LoginForm

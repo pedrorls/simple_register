@@ -6,21 +6,9 @@ import { PatientAPI } from "../../resources/api/PatientsAPI";
 export const Patient = () => {
   const [patients, setPatients] = useState([]);
   const [createForm, setCreateForm] = useState(false);
-  const [patientData, setPatientData] = useState({
-    name: "",
-    email: "",
-    birth_date: "",
-    phone: null,
-    cpf: null,
-  });
-  const [addressData, setAddressData] = useState({
-    street: "",
-    additional_adress: "",
-    number: null,
-    zip_code: null,
-    state: "",
-    city: "",
-  });
+  const [patientData, setPatientData] = useState(PatientAPI.initial.patient);
+  const [addressData, setAddressData] = useState(PatientAPI.initial.address);
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     const retrieve = async () => {
@@ -40,14 +28,30 @@ export const Patient = () => {
 
   const handleAddressChange = (event) => {
     event.preventDefault();
-    setPatientData({
-      ...patientData,
+    setAddressData({
+      ...addressData,
       [event.target.name]: event.target.value,
     });
   };
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
+    await PatientAPI.create({ ...patientData, address: addressData })
+      .then((response) => {
+        const patientsCopy = patients.slice();
+        patientsCopy.push(response);
+        setPatients(patientsCopy);
+        setPatientData(PatientAPI.initial.patient);
+        setAddressData(PatientAPI.initial.address);
+        setCreateForm(false);
+      })
+      .catch((error) => setErrors(Object.entries(error.response.data)));
+  };
+
+  const handleOnCancel = () => {
+    setPatientData(PatientAPI.initial.patient);
+    setAddressData(PatientAPI.initial.address);
+    setCreateForm(false);
   };
 
   return (
@@ -58,12 +62,20 @@ export const Patient = () => {
       )}
       {!createForm && <Table patients={patients} />}
       {createForm && (
+        <ul>
+          {errors.map((error, index) => (
+            <li key={index}>{`${error[0]}: ${error[1]}`}</li>
+          ))}
+        </ul>
+      )}
+      {createForm && (
         <PatientForm
           patientData={patientData}
           addressData={addressData}
           handlePatientChange={handlePatientChange}
           handleAddressChange={handleAddressChange}
           handleOnSubmit={handleOnSubmit}
+          handleOnCancel={handleOnCancel}
         />
       )}
     </div>

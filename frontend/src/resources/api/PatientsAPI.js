@@ -41,8 +41,41 @@ api.interceptors.response.use(
 );
 
 export const PatientAPI = {
+  initial: {
+    patient: {
+      name: "",
+      email: "",
+      birth_date: "",
+      phone: null,
+      cpf: null,
+    },
+    address: {
+      street: "",
+      additional_adress: "",
+      number: null,
+      zip_code: null,
+      state: "",
+      city: "",
+    },
+  },
   list: async () => {
     const response = await api.get("/");
+    return response.data;
+  },
+
+  create: async (data) => {
+    console.log(data);
+    const response = await api.post("/", data);
+    return response.data;
+  },
+
+  update: async (patientId, data) => {
+    const response = await api.patch(`/${patientId}/`, data);
+    return response.data;
+  },
+
+  delete: async (patientId) => {
+    const response = await api.patch(`/${patientId}/`);
     return response.data;
   },
 };

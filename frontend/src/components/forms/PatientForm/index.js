@@ -8,6 +8,7 @@ export const PatientForm = ({
   handlePatientChange,
   handleAddressChange,
   handleOnSubmit,
+  handleOnCancel,
 }) => (
   <form onSubmit={handleOnSubmit}>
     <label htmlFor="name">Name</label>
@@ -17,11 +18,19 @@ export const PatientForm = ({
       value={patientData.name}
       onChange={handlePatientChange}
     />
-    <label htmlFor="password">Password</label>
+    <label htmlFor="email">Email</label>
     <input
       type="email"
       name="email"
       value={patientData.email}
+      onChange={handlePatientChange}
+    />
+    <label htmlFor="phone">CPF</label>
+
+    <input
+      type="number"
+      name="cpf"
+      value={patientData.cpf}
       onChange={handlePatientChange}
     />
     <label htmlFor="birth_date">Birth date</label>
@@ -38,7 +47,10 @@ export const PatientForm = ({
       value={patientData.phone}
       onChange={handlePatientChange}
     />
-    <AddressForm data={addressData} handleOnchange={handlePatientChange} />
+    <AddressForm data={addressData} handleOnchange={handleAddressChange} />
     <button type="submit">Create</button>
+    <button type="button" onClick={handleOnCancel}>
+      Cancel
+    </button>
   </form>
 );

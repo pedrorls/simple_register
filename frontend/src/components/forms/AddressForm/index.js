@@ -21,7 +21,7 @@ export const AddressForm = ({ data, handleOnchange }) => (
     <input
       type="number"
       name="number"
-      value={data.birth_date}
+      value={data.number}
       onChange={handleOnchange}
     />
     <label htmlFor="zip_code">Zip code</label>
