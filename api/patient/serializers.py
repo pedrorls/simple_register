@@ -12,9 +12,7 @@ class PatientSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         address = Address.objects.create(**validated_data["address"])
         validated_data["address"] = address
-        Patient.objects.create(**validated_data)
-
-        return validated_data
+        return  Patient.objects.create(**validated_data)
 
 
     def update(self, instance, validated_data):
@@ -27,4 +25,4 @@ class PatientSerializer(serializers.ModelSerializer):
         instance.birth_date = validated_data["birth_date"]
         instance.phone = validated_data["phone"]
         instance.save()
-        return validated_data
+        return instance

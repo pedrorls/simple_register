@@ -10,3 +10,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.select_related("address")
+
+    def perform_destroy(self, instance):
+        super().perform_destroy(instance)
+        instance.address.delete()
