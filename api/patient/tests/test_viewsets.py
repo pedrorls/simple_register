@@ -91,5 +91,5 @@ def _create_authenticated_user(client, django_user_model):
     )
     user.set_password("fakepassword")
     user.save()
-    response = client.post(reverse("token"), data={"username": user.username, "password": "fakepassword"})
+    response = client.post(reverse("get-token"), data={"username": user.username, "password": "fakepassword"})
     return response.data["token"]
