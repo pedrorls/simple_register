@@ -1,7 +1,6 @@
 from django.db import models
 from .utils import validate_zip_code
 
-
 class Address(models.Model):
     street = models.CharField(max_length=250)
     number = models.PositiveIntegerField()

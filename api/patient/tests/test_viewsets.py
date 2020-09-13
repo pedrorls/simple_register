@@ -1,6 +1,4 @@
-from genericpath import exists
 import json
-from _pytest.config import console_main
 import pytest
 from model_bakery import baker
 from django.urls import reverse

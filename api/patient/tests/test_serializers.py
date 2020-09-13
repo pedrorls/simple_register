@@ -1,4 +1,3 @@
-from _pytest.python import Instance
 import pytest
 from model_bakery import baker
 
