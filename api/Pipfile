@@ -10,6 +10,9 @@ djangorestframework-jwt = "*"
 django-cors-headers = "*"
 
 [dev-packages]
+pytest-django = "*"
+model-bakery = "*"
+django-extensions = "*"
 
 [requires]
 python_version = "3.7"
