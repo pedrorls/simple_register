@@ -13,7 +13,14 @@ export const App = () => {
       if (token) {
         await TokenAPI.verify(token)
           .then((response) => setIsLogged(true))
-          .catch((error) => setIsLogged(false));
+          .catch(async (error) => {
+            await TokenAPI.refresh(token)
+              .then((response) => {
+                localStorage.setItem("token", response.data.token);
+                setIsLogged(true);
+              })
+              .catch((error) => setIsLogged(false));
+          });
       }
     };
     verify();

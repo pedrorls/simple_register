@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form } from "../../components/Form";
+import { LoginForm } from "../../components/forms/LoginForm";
 import { TokenAPI } from "../../resources/api/TokenAPI";
 import "./styles.css";
 
@@ -30,6 +30,7 @@ export const Login = ({ setIsLogged }) => {
         setErrors(error.response.data.non_field_errors);
       });
   };
+
   return (
     <div>
       <h2>Login</h2>
@@ -38,7 +39,7 @@ export const Login = ({ setIsLogged }) => {
           <li key={index}> {error}</li>
         ))}
       </ul>
-      <Form
+      <LoginForm
         data={credentials}
         handleOnchange={handleOnchange}
         handleOnSubmit={handleOnSubmit}

@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 
-export const Form = ({ data, handleOnchange, handleOnSubmit }) => (
+export const LoginForm = ({ data, handleOnchange, handleOnSubmit }) => (
   <form onSubmit={handleOnSubmit}>
     <label htmlFor="username">Username</label>
     <input
