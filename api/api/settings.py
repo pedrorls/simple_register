@@ -29,20 +29,28 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
-
-INSTALLED_APPS = [
+DJANGO_APPS = [    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    "corsheaders",
+]
+
+LOCAL_APPS = [
     "account.apps.AccountConfig",
     "patient.apps.PatientConfig",
     "address.apps.AddressConfig"
 ]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',
+    "corsheaders",
+    "django_extensions"
+] 
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -145,5 +153,6 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'api.utils.custom_jwt_response_handler'
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'api.utils.custom_jwt_response_handler',
+    'JWT_ALLOW_REFRESH': True,
 }

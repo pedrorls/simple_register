@@ -22,7 +22,7 @@ from .routers import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("token/", obtain_jwt_token),
-    path("refresh-token/", refresh_jwt_token),
+    path("token/", obtain_jwt_token, name="token"),
+    path("refresh-token/", refresh_jwt_token, name="refresh-token"),
     path("api/", include((router.urls, "api"), namespace="api"))
 ]
