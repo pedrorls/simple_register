@@ -8,6 +8,7 @@ export const Patient = () => {
   const [createForm, setCreateForm] = useState(false);
   const [patientData, setPatientData] = useState(PatientAPI.initial.patient);
   const [addressData, setAddressData] = useState(PatientAPI.initial.address);
+  const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export const Patient = () => {
     });
   };
 
-  const handleOnSubmit = async (event) => {
+  const handleOnCreate = async (event) => {
     event.preventDefault();
     await PatientAPI.create({ ...patientData, address: addressData })
       .then((response) => {
@@ -48,25 +49,73 @@ export const Patient = () => {
       .catch((error) => setErrors(Object.entries(error.response.data)));
   };
 
+  const handleOnUpdate = async (event) => {
+    event.preventDefault();
+    await PatientAPI.update({ ...patientData, address: addressData })
+      .then((response) => {
+        const patientsCopy = patients.slice();
+        const index = patientsCopy.findIndex(
+          (patient) => patient.id === patientData.id
+        );
+        patientsCopy[index] = response;
+        setPatients(patientsCopy);
+        setPatientData(PatientAPI.initial.patient);
+        setAddressData(PatientAPI.initial.address);
+        setCreateForm(false);
+        setIsEditing(false);
+      })
+      .catch((error) => setErrors(Object.entries(error.response.data)));
+  };
+
   const handleOnCancel = () => {
     setPatientData(PatientAPI.initial.patient);
     setAddressData(PatientAPI.initial.address);
     setCreateForm(false);
   };
 
+  const handleOnDelete = async (patientId) => {
+    await PatientAPI.delete(patientId)
+      .then((response) => {
+        const patientsCopy = patients.slice();
+        const newList = patientsCopy.filter(
+          (patient) => patient.id !== patientId
+        );
+        setPatients(newList);
+      })
+      .catch((error) => console.log(error.response));
+  };
+
+  const handleOnEdit = async (patient) => {
+    setAddressData(patient.address);
+    setPatientData(patient);
+    setIsEditing(true);
+    setCreateForm(true);
+  };
+
   return (
     <div>
       <h1>Patient List</h1>
       {!createForm && (
-        <button onClick={() => setCreateForm(true)}>Create patient</button>
+        <button
+          onClick={() => {
+            setIsEditing(false);
+            setCreateForm(true);
+          }}
+        >
+          Create patient
+        </button>
       )}
-      {!createForm && <Table patients={patients} />}
-      {createForm && (
-        <ul>
-          {errors.map((error, index) => (
-            <li key={index}>{`${error[0]}: ${error[1]}`}</li>
-          ))}
-        </ul>
+      <ul>
+        {errors.map((error, index) => (
+          <li key={index}>{`${error[0]}: ${error[1]}`}</li>
+        ))}
+      </ul>
+      {!createForm && (
+        <Table
+          patients={patients}
+          handleOnEdit={handleOnEdit}
+          handleOnDelete={handleOnDelete}
+        />
       )}
       {createForm && (
         <PatientForm
@@ -74,8 +123,10 @@ export const Patient = () => {
           addressData={addressData}
           handlePatientChange={handlePatientChange}
           handleAddressChange={handleAddressChange}
-          handleOnSubmit={handleOnSubmit}
+          handleOnCreate={handleOnCreate}
+          handleOnUpdate={handleOnUpdate}
           handleOnCancel={handleOnCancel}
+          isEditing={isEditing}
         />
       )}
     </div>

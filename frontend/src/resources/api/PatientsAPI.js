@@ -64,18 +64,17 @@ export const PatientAPI = {
   },
 
   create: async (data) => {
-    console.log(data);
     const response = await api.post("/", data);
     return response.data;
   },
 
-  update: async (patientId, data) => {
-    const response = await api.patch(`/${patientId}/`, data);
+  update: async (data) => {
+    const response = await api.patch(`/${data.id}/`, data);
     return response.data;
   },
 
   delete: async (patientId) => {
-    const response = await api.patch(`/${patientId}/`);
+    const response = await api.delete(`/${patientId}/`);
     return response.data;
   },
 };

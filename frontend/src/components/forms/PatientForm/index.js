@@ -7,10 +7,12 @@ export const PatientForm = ({
   addressData,
   handlePatientChange,
   handleAddressChange,
-  handleOnSubmit,
+  handleOnCreate,
+  handleOnUpdate,
   handleOnCancel,
+  isEditing,
 }) => (
-  <form onSubmit={handleOnSubmit}>
+  <form onSubmit={isEditing ? handleOnUpdate : handleOnCreate}>
     <label htmlFor="name">Name</label>
     <input
       type="text"
@@ -48,7 +50,7 @@ export const PatientForm = ({
       onChange={handlePatientChange}
     />
     <AddressForm data={addressData} handleOnchange={handleAddressChange} />
-    <button type="submit">Create</button>
+    <button type="submit">{isEditing ? "Update" : "Create"}</button>
     <button type="button" onClick={handleOnCancel}>
       Cancel
     </button>

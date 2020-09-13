@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 
-export const Table = ({ patients }) => (
+export const Table = ({ patients, handleOnEdit, handleOnDelete }) => (
   <table>
     <thead>
       <tr>
@@ -32,8 +32,8 @@ export const Table = ({ patients }) => (
           <td>{patient.address.city}</td>
           <td>{patient.address.state}</td>
           <td>
-            <button>Edit</button>
-            <button>Delete</button>
+            <button onClick={() => handleOnEdit(patient)}>Edit</button>
+            <button onClick={() => handleOnDelete(patient.id)}>Delete</button>
           </td>
         </tr>
       ))}
