@@ -1,68 +1,239 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Contents
 
-## Available Scripts
+1. [Getting started](#getting-started)
+2. [Endpoints](#endpoints)
 
-In the project directory, you can run:
+---
 
-### `yarn start`
+## Getting started <a name="getting-started"></a>
+### Installation
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Install required system packages
+```sh
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev libffi-dev libpq-dev liblzma-dev python-openssl git libxmlsec1-dev pkg-config
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Install pyenv
+```sh
+curl https://pyenv.run | sh
+```
 
-### `yarn test`
+- Restart your shell
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Install the project's python version
+```
+pyenv install 3.7.3
+```
 
-### `yarn build`
+- Install pipenv
+```sh
+pip install --user pipenv==2018.10.13
+```
+If the pipenv command is not recognized, try installing as root (with `sudo`)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Install yarn
+```sh
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+sudo apt update && sudo apt install yarn
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Go to project folder and activate environment
+```sh
+cd [project root]
+pipenv shell
+```
 
-### `yarn eject`
+- Install backend dependencies
+```sh
+cd [project root]/api
+pipenv sync -d
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Install frontend dependencies
+```sh
+cd [project root]/frontend
+yarn
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Run server
+- run backend server
+```sh
+cd [project root]/api
+python manage.py runserver
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```sh
+cd [project root]/front
+yarn start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Endpoints <a name="endpoints"></a>
+- PS: For any request jwt token most be include in the request headers
+### Login/Get jwt Token
+- URL
+```sh
+/token/get/
+```
+- Method
+```sh
+Post
+```
+- Form data
+```sh
+username
+password
+```
+- Response
+```
+{ 
+    token: code,
+    user: { username: "user" }
+}
+```
 
-## Learn More
+### Refresh token
+- URL
+```sh
+/token/refresh/
+```
+- Method
+```sh
+Post
+```
+- Form data
+```sh
+token
+```
+- Response
+```
+{ 
+    token: code,
+    user: { username: "user" }
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Verify token
+- URL
+```sh
+POST /token/verify/
+```
+- Form data
+```sh
+token
+```
+- Response
+```
+{ 
+    token: code,
+    user: { username: "user" }
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### Patient
+- URL
+```sh
+- List and create patient
+GET: /token/patient/
+POST: /token/patient/
+- Get or Update single patient 
+GET: /token/patient/:patien_id/
+PATCH: /token/patient/:patien_id/
+```
+- Form data
+```sh
+- POST/PATH
+"id": 7,
+"name": "Paciente 0",
+"email": "paciente0@email.com",
+"cpf": "12345678999",
+"birth_date": "2020-09-13",
+"phone": "12345678",
+"address": {
+    "id": 7,
+    "street": "abc abc",
+    "number": 12,
+    "additional_adress": "abc1",
+    "zip_code": "12345678",
+    "city": "CE",
+    "state": "CE"
+}
+```
+- Response
+```
+-POST/PATCH/GET
+{
+    "id": 7,
+    "name": "Paciente 0",
+    "email": "paciente0@email.com",
+    "cpf": "12345678999",
+    "birth_date": "2020-09-13",
+    "phone": "12345678",
+    "address": {
+        "id": 7,
+        "street": "abc abc",
+        "number": 12,
+        "additional_adress": "abc1",
+        "zip_code": "12345678",
+        "city": "CE",
+        "state": "CE"
+    }
+}
+```
+```
+-GET(LIST)
+[{
+    "id": 7,
+    "name": "Paciente 0",
+    "email": "paciente0@email.com",
+    "cpf": "12345678999",
+    "birth_date": "2020-09-13",
+    "phone": "12345678",
+    "address": {
+        "id": 7,
+        "street": "abc abc",
+        "number": 12,
+        "additional_adress": "abc1",
+        "zip_code": "12345678",
+        "city": "CE",
+        "state": "CE"
+    }
+}]
+```
+### Address
+- URL
+```sh
+- List addresses
+GET: /token/address/
+GET: /token/address/:address_id/
+```
+- Response
+```
+[{
+        "id": 7,
+        "street": "abc abc",
+        "number": 12,
+        "additional_adress": "abc1",
+        "zip_code": "12345678",
+        "city": "CE",
+        "state": "CE"
+    }]
+```
+### Accounts
+- URL
+```sh
+- List users
+GET: /token/accounts/
+GET: /token/accounts/:accounts_id/
+```
+- Response
+```
+[
+    {
+        "username": "pedro"
+    }
+]
+```
