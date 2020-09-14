@@ -59,6 +59,19 @@ cd [project root]/frontend
 yarn
 ```
 
+### Create databse  
+```sh
+cd [project root]/api
+python manage.py migrate
+```
+
+### Create admin
+- ps: you can use this admin user to login trough api
+```sh
+cd [project root]/api
+python manage.py createsuperuser
+```
+
 ### Run server
 - run backend server
 ```sh
