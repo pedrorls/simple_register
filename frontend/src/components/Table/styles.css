@@ -1,10 +1,10 @@
 table,
 th,
 td {
-  border: 1px solid #ccc;
+  border: 0.1rem solid #ccc;
 }
 
 th,
 td {
-  padding: 15px;
+  padding: 1rem;
 }
