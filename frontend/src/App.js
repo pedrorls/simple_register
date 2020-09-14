@@ -12,11 +12,13 @@ export const App = () => {
     const verify = async () => {
       if (token) {
         await TokenAPI.verify(token)
-          .then((response) => setIsLogged(true))
+          .then((response) => {
+            setIsLogged(true);
+          })
           .catch(async (error) => {
             await TokenAPI.refresh(token)
-              .then((response) => {
-                localStorage.setItem("token", response.data.token);
+              .then(async (response) => {
+                await localStorage.setItem("token", response.data.token);
                 setIsLogged(true);
               })
               .catch((error) => setIsLogged(false));
