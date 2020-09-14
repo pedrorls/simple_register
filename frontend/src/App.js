@@ -1,32 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import { Login } from "./pages/Login";
 import { Patient } from "./pages/Patient";
+import { PrivateRoute } from "./components/PrivateRoute";
+
 import "./app.css";
-import { TokenAPI } from "./resources/api/TokenAPI";
 
 export const App = () => {
-  const [isLogged, setIsLogged] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const verify = async () => {
-      if (token) {
-        await TokenAPI.verify(token)
-          .then((response) => {
-            setIsLogged(true);
-          })
-          .catch(async (error) => {
-            await TokenAPI.refresh(token)
-              .then(async (response) => {
-                await localStorage.setItem("token", response.data.token);
-                setIsLogged(true);
-              })
-              .catch((error) => setIsLogged(false));
-          });
-      }
-    };
-    verify();
-  }, []);
-
-  return <>{isLogged ? <Patient /> : <Login setIsLogged={setIsLogged} />}</>;
+  return (
+    <Switch>
+      <PrivateRoute exact path="/" component={Patient} />
+      <Route path="/login" component={Login} />
+    </Switch>
+  );
 };

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { LoginForm } from "../../components/forms/LoginForm";
 import { TokenAPI } from "../../resources/api/TokenAPI";
 import "./styles.css";
 
-export const Login = ({ setIsLogged }) => {
+export const Login = () => {
+  const history = useHistory();
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -25,7 +27,7 @@ export const Login = ({ setIsLogged }) => {
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         setCredentials({ username: "", password: "" });
-        setIsLogged(true);
+        history.push("/");
       })
       .catch((error) => {
         setCredentials({
