@@ -65,7 +65,7 @@ yarn
 cd [project root]/api
 python manage.py runserver
 ```
-
+- run frontend server
 ```sh
 cd [project root]/front
 yarn start
